@@ -32,7 +32,7 @@ table 50102 "Request Line"
             DataClassification = CustomerContent;
             TableRelation = if (Type = const(" ")) "Standard Text" else
             if (Type = const(Item)) Item else
-            if (Type = const(Resource)) Resource);
+            if (Type = const(Resource)) Resource;
         }
         field(6; Description; Text[100])
         {
