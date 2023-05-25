@@ -3,7 +3,10 @@ codeunit 50105 "Request Resource Line Impl."
     Access = Internal;
 
     procedure OnInsert(var Rec: Record "Request Line")
+    var
+        RequestGenericLine: Codeunit "Request Generic Line";
     begin
+        RequestGenericLine.CopyHeaderData(Rec);
     end;
 
     procedure OnModify(var Rec: Record "Request Line"; xRec: Record "Request Line")
@@ -29,31 +32,38 @@ codeunit 50105 "Request Resource Line Impl."
     end;
 
     local procedure ValidateNoField(var Rec: Record "Request Line"; xRec: Record "Request Line")
+    var
+        RequestGenericLine: Codeunit "Request Generic Line";
     begin
         Rec.Description := GetDescription(Rec."No.");
+        RequestGenericLine.InitQuantity(Rec);
     end;
 
     local procedure ValidateQuantityField(var Rec: Record "Request Line"; xRec: Record "Request Line")
     begin
-        Error('Procedure ValidateQuantityField not implemented.');
     end;
 
     local procedure ValidateStartingDateField(var Rec: Record "Request Line"; xRec: Record "Request Line")
+    var
+        RequestGenericLine: Codeunit "Request Generic Line";
     begin
-        Error('Procedure ValidateStartingDateField not implemented.');
+        RequestGenericLine.VerifyStartingDate(Rec."No.", Rec."Starting Date");
+        RequestGenericLine.VerifyDuration(Rec."No.", Rec."Starting Date", Rec."Duration (Days)");
     end;
 
     local procedure ValidateDurationDays(var Rec: Record "Request Line"; xRec: Record "Request Line")
+    var
+        RequestGenericLine: Codeunit "Request Generic Line";
     begin
-        Error('Procedure ValidateDurationDays not implemented.');
+        RequestGenericLine.VerifyDuration(Rec."No.", Rec."Starting Date", Rec."Duration (Days)");
     end;
 
-    local procedure GetDescription(ItemNo: Code[20]): Text[100]
+    local procedure GetDescription(ResourceNo: Code[20]): Text[100]
     var
         Resource: Record Resource;
     begin
         Resource.SetLoadFields(Name);
-        if Resource.Get(ItemNo) then
+        if Resource.Get(ResourceNo) then
             exit(Resource.Name);
     end;
 }

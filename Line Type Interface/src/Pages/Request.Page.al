@@ -1,0 +1,43 @@
+page 50102 Request
+{
+    ApplicationArea = All;
+    Caption = 'Request';
+    PageType = Document;
+    SourceTable = "Request Header";
+
+    layout
+    {
+        area(content)
+        {
+            group(General)
+            {
+                Caption = 'General';
+
+                field("No."; Rec."No.")
+                {
+                    ToolTip = 'Specifies the value of the No. field.';
+                }
+                field("Customer No."; Rec."Customer No.")
+                {
+                    ToolTip = 'Specifies the value of the Customer field.';
+                }
+                field(Name; Rec.Name)
+                {
+                    ToolTip = 'Specifies the value of the Name field.';
+                }
+                field("Starting Date"; Rec."Starting Date")
+                {
+                    ToolTip = 'Specifies the value of the Starting Date field.';
+                }
+                field("Duration (Days)"; Rec."Duration (Days)")
+                {
+                    ToolTip = 'Specifies the value of the Duration (Days) field.';
+                }
+            }
+            part(RequestLines; "Request SubPage")
+            {
+                SubPageLink = "No." = Field("No.");
+            }
+        }
+    }
+}

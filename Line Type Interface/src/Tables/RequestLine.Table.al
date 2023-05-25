@@ -19,6 +19,7 @@ table 50102 "Request Line"
         {
             Caption = 'Customer No.';
             DataClassification = CustomerContent;
+            Editable = false;
         }
         field(4; "Type"; Enum "Request Line Type")
         {
@@ -29,6 +30,9 @@ table 50102 "Request Line"
         {
             Caption = 'No.';
             DataClassification = CustomerContent;
+            TableRelation = if (Type = const(" ")) "Standard Text" else
+            if (Type = const(Item)) Item else
+            if (Type = const(Resource)) Resource);
         }
         field(6; Description; Text[100])
         {

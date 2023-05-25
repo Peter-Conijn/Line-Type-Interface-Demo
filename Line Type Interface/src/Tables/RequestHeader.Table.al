@@ -1,7 +1,9 @@
 table 50101 "Request Header"
 {
     Caption = 'Request Header';
-    DataClassification = ToBeClassified;
+    DataClassification = CustomerContent;
+    LookupPageId = Requests;
+    DrillDownPageId = Requests;
 
     fields
     {
@@ -15,6 +17,11 @@ table 50101 "Request Header"
             Caption = 'Customer';
             DataClassification = CustomerContent;
             TableRelation = Customer;
+
+            trigger OnValidate()
+            begin
+                CalcFields(Name);
+            end;
         }
         field(3; Name; Text[100])
         {
@@ -27,11 +34,14 @@ table 50101 "Request Header"
         {
             Caption = 'Starting Date';
             DataClassification = CustomerContent;
+            NotBlank = true;
         }
         field(5; "Duration (Days)"; Integer)
         {
             Caption = 'Duration (Days)';
             DataClassification = CustomerContent;
+            MinValue = 0;
+            BlankZero = true;
         }
     }
     keys
@@ -41,4 +51,21 @@ table 50101 "Request Header"
             Clustered = true;
         }
     }
+
+    trigger OnInsert()
+    begin
+        "Starting Date" := WorkDate();
+        "Duration (Days)" := 1;
+    end;
+
+    procedure GetFinishingDate(): Date
+    var
+        DateExpression: Text;
+    begin
+        if "Starting Date" = 0D then
+            exit;
+
+        DateExpression := StrSubstNo('<%1>', "Duration (Days)");
+        exit(CalcDate(DateExpression, "Starting Date"));
+    end;
 }
