@@ -19,6 +19,11 @@ codeunit 50102 "Request Item Line" implements "Request Line"
         RequestItemLineImpl.OnValidateField(Rec, xRec, CalledFromFieldNo);
     end;
 
+    procedure LookupField(var Rec: Record "Request Line"; xRec: Record "Request Line"; CalledFromFieldNo: Integer)
+    begin
+        RequestItemLineImpl.OnLookupField(Rec, xRec, CalledFromFieldNo);
+    end;
+
     var
         RequestItemLineImpl: Codeunit "Request Item Line Impl.";
 }

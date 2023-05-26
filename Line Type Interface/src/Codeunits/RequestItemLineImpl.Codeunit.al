@@ -31,6 +31,10 @@ codeunit 50104 "Request Item Line Impl."
         end;
     end;
 
+    procedure OnLookupField(var Rec: Record "Request Line"; xRec: Record "Request Line"; CalledFromFieldNo: Integer)
+    begin
+    end;
+
     local procedure ValidateNoField(var Rec: Record "Request Line"; xRec: Record "Request Line")
     var
         RequestGenericLine: Codeunit "Request Generic Line";

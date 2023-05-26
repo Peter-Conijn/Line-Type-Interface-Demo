@@ -36,29 +36,49 @@ table 50102 "Request Line"
         }
         field(6; Description; Text[100])
         {
-            Caption = 'No.';
+            Caption = 'Description';
             DataClassification = CustomerContent;
+
+            trigger OnValidate()
+            begin
+                ValidateField(FieldNo(Description));
+            end;
         }
         field(7; Quantity; Decimal)
         {
             Caption = 'Quantity';
             DataClassification = CustomerContent;
+
+            trigger OnValidate()
+            begin
+                ValidateField(FieldNo(Quantity));
+            end;
         }
         field(8; "Starting Date"; Date)
         {
             Caption = 'Starting Date';
             DataClassification = CustomerContent;
+
+            trigger OnValidate()
+            begin
+                ValidateField(FieldNo("Starting Date"));
+            end;
         }
         field(9; "Duration (Days)"; Integer)
         {
             Caption = 'Duration (Days)';
             DataClassification = CustomerContent;
+
+            trigger OnValidate()
+            begin
+                ValidateField(FieldNo("Duration (Days)"));
+            end;
         }
     }
 
     keys
     {
-        key(PK; "Document No.")
+        key(PK; "Document No.", "Line No.")
         {
             Clustered = true;
         }
@@ -86,6 +106,12 @@ table 50102 "Request Line"
     begin
         ImplementRequestLine();
         RequestLine.OnValidateField(Rec, xRec, CalledFromFieldNo);
+    end;
+
+    local procedure LookupField(CalledFromFieldNo: Integer)
+    begin
+        ImplementRequestLine();
+        RequestLine.LookupField(Rec, xRec, CalledFromFieldNo);
     end;
 
     local procedure ImplementRequestLine()

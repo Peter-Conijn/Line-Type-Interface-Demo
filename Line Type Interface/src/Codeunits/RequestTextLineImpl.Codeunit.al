@@ -32,6 +32,10 @@ codeunit 50106 "Request Text Line Impl."
         end;
     end;
 
+    procedure OnLookupField(var Rec: Record "Request Line"; xRec: Record "Request Line"; CalledFromFieldNo: Integer)
+    begin
+    end;
+
     local procedure ValidateNoField(var Rec: Record "Request Line"; xRec: Record "Request Line")
     begin
         Rec.Description := GetDescription(Rec."No.");

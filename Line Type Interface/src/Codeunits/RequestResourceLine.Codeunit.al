@@ -22,6 +22,11 @@ codeunit 50103 "Request Resource Line" implements "Request Line"
         RequestResourceLineImpl.OnValidateField(Rec, xRec, CalledFromFieldNo);
     end;
 
+    procedure LookupField(var Rec: Record "Request Line"; xRec: Record "Request Line"; CalledFromFieldNo: Integer)
+    begin
+        RequestResourceLineImpl.OnLookupField(Rec, xRec, CalledFromFieldNo);
+    end;
+
     var
         RequestResourceLineImpl: Codeunit "Request Resource Line Impl.";
 }

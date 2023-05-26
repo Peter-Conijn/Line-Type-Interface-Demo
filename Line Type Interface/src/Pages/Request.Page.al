@@ -33,6 +33,11 @@ page 50102 Request
                 {
                     ToolTip = 'Specifies the value of the Duration (Days) field.';
                 }
+                field("Finishing Date"; Rec.GetFinishingDate())
+                {
+                    ToolTip = 'Specifies the date that the request requirements end.';
+                    Editable = false;
+                }
             }
             part(RequestLines; "Request SubPage")
             {

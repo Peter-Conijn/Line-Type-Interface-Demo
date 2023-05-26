@@ -65,7 +65,7 @@ table 50101 "Request Header"
         if "Starting Date" = 0D then
             exit;
 
-        DateExpression := StrSubstNo('<%1>', "Duration (Days)");
+        DateExpression := StrSubstNo('<%1D>', "Duration (Days)");
         exit(CalcDate(DateExpression, "Starting Date"));
     end;
 }
