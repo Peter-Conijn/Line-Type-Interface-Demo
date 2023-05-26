@@ -9,7 +9,7 @@
             "server": "http://W1Sandbox",
             "serverInstance": "BC",
             "authentication": "UserPassword",
-            "startupObjectId": 22,
+            "startupObjectId": 50101,
             "startupObjectType": "Page",
             "breakOnError": "All",
             "launchBrowser": true,

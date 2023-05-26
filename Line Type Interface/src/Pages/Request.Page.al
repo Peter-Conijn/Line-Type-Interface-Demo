@@ -41,7 +41,8 @@ page 50102 Request
             }
             part(RequestLines; "Request SubPage")
             {
-                SubPageLink = "No." = Field("No.");
+                SubPageLink = "Document No." = Field("No.");
+                UpdatePropagation = Both;
             }
         }
     }

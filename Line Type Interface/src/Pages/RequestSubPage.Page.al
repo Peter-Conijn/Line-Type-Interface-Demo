@@ -28,14 +28,17 @@ page 50103 "Request SubPage"
                 field(Quantity; Rec.Quantity)
                 {
                     ToolTip = 'Specifies how many of the entity in question is required.';
+                    Editable = Rec.Type <> Enum::"Request Line Type"::" ";
                 }
                 field("Starting Date"; Rec."Starting Date")
                 {
                     ToolTip = 'Specifies the start of the period that this entity is required. This may not precede the starting date on the request header.';
+                    Editable = Rec.Type <> Enum::"Request Line Type"::" ";
                 }
                 field("Duration (Days)"; Rec."Duration (Days)")
                 {
                     ToolTip = 'Specifies for how many days the entity will be required. The starting date plus duration may not exceed the finishing date on the header.';
+                    Editable = Rec.Type <> Enum::"Request Line Type"::" ";
                 }
             }
         }

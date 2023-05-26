@@ -4,7 +4,7 @@ codeunit 50107 "Request Generic Line"
     var
         RequestHeader: Record "Request Header";
     begin
-        RequestHeader.Get();
+        RequestHeader.Get(RequestLine."Document No.");
 
         RequestLine."Customer No." := RequestHeader."Customer No.";
         RequestLine."Starting Date" := RequestHeader."Starting Date";

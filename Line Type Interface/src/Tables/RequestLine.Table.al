@@ -33,6 +33,11 @@ table 50102 "Request Line"
             TableRelation = if (Type = const(" ")) "Standard Text" else
             if (Type = const(Item)) Item else
             if (Type = const(Resource)) Resource;
+
+            trigger OnValidate()
+            begin
+                ValidateField(FieldNo("No."));
+            end;
         }
         field(6; Description; Text[100])
         {
@@ -48,6 +53,9 @@ table 50102 "Request Line"
         {
             Caption = 'Quantity';
             DataClassification = CustomerContent;
+            DecimalPlaces = 0 : 2;
+            BlankZero = true;
+            MinValue = 0;
 
             trigger OnValidate()
             begin
@@ -68,6 +76,8 @@ table 50102 "Request Line"
         {
             Caption = 'Duration (Days)';
             DataClassification = CustomerContent;
+            BlankZero = true;
+            MinValue = 0;
 
             trigger OnValidate()
             begin
