@@ -31,7 +31,9 @@ codeunit 50107 "Request Generic Line"
         LineFinishingDate: Date;
         DateExpression: Text;
     begin
+        RequestHeader.Get(RequestNo);
         HeaderFinishingDate := RequestHeader.GetFinishingDate();
+
         DateExpression := StrSubstNo('<%1D>', LineDuration);
         LineFinishingDate := CalcDate(DateExpression, LineStartingDate);
 

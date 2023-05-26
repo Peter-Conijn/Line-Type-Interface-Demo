@@ -52,13 +52,15 @@ codeunit 50104 "Request Item Line Impl."
     var
         RequestGenericLine: Codeunit "Request Generic Line";
     begin
-        RequestGenericLine.VerifyStartingDate(Rec."No.", Rec."Starting Date");
-        RequestGenericLine.VerifyDuration(Rec."No.", Rec."Starting Date", Rec."Duration (Days)");
+        RequestGenericLine.VerifyStartingDate(Rec."Document No.", Rec."Starting Date");
+        RequestGenericLine.VerifyDuration(Rec."Document No.", Rec."Starting Date", Rec."Duration (Days)");
     end;
 
     local procedure ValidateDurationDays(var Rec: Record "Request Line"; xRec: Record "Request Line")
+    var
+        RequestGenericLine: Codeunit "Request Generic Line";
     begin
-        Error('Procedure ValidateDurationDays not implemented.');
+        RequestGenericLine.VerifyDuration(Rec."Document No.", Rec."Starting Date", Rec."Duration (Days)");
     end;
 
     local procedure GetDescription(ItemNo: Code[20]): Text[100]

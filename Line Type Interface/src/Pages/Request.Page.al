@@ -13,10 +13,6 @@ page 50102 Request
             {
                 Caption = 'General';
 
-                field("No."; Rec."No.")
-                {
-                    ToolTip = 'Specifies the value of the No. field.';
-                }
                 field("Customer No."; Rec."Customer No.")
                 {
                     ToolTip = 'Specifies the value of the Customer field.';

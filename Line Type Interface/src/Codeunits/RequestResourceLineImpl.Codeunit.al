@@ -52,15 +52,15 @@ codeunit 50105 "Request Resource Line Impl."
     var
         RequestGenericLine: Codeunit "Request Generic Line";
     begin
-        RequestGenericLine.VerifyStartingDate(Rec."No.", Rec."Starting Date");
-        RequestGenericLine.VerifyDuration(Rec."No.", Rec."Starting Date", Rec."Duration (Days)");
+        RequestGenericLine.VerifyStartingDate(Rec."Document No.", Rec."Starting Date");
+        RequestGenericLine.VerifyDuration(Rec."Document No.", Rec."Starting Date", Rec."Duration (Days)");
     end;
 
     local procedure ValidateDurationDays(var Rec: Record "Request Line"; xRec: Record "Request Line")
     var
         RequestGenericLine: Codeunit "Request Generic Line";
     begin
-        RequestGenericLine.VerifyDuration(Rec."No.", Rec."Starting Date", Rec."Duration (Days)");
+        RequestGenericLine.VerifyDuration(Rec."Document No.", Rec."Starting Date", Rec."Duration (Days)");
     end;
 
     local procedure GetDescription(ResourceNo: Code[20]): Text[100]

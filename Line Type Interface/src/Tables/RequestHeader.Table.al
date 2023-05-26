@@ -11,6 +11,11 @@ table 50101 "Request Header"
         {
             Caption = 'No.';
             DataClassification = CustomerContent;
+
+            trigger OnValidate()
+            begin
+                TestNoSeriesManual();
+            end;
         }
         field(2; "Customer No."; Code[20])
         {
@@ -54,6 +59,8 @@ table 50101 "Request Header"
 
     trigger OnInsert()
     begin
+        InitNoSeries();
+
         "Starting Date" := WorkDate();
         "Duration (Days)" := 1;
     end;
@@ -67,5 +74,45 @@ table 50101 "Request Header"
 
         DateExpression := StrSubstNo('<%1D>', "Duration (Days)");
         exit(CalcDate(DateExpression, "Starting Date"));
+    end;
+
+    local procedure InitNoSeries()
+    var
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesCode: Code[20];
+    begin
+        if "No." <> '' then
+            exit;
+
+        TestNoSeries();
+        NoSeriesCode := GetNoSeriesCode();
+        NoSeriesMgt.InitSeries(NoSeriesCode, NoSeriesCode, WorkDate(), "No.", NoSeriesCode);
+    end;
+
+    local procedure TestNoSeries()
+    var
+        RequestNoSeries: Codeunit "Request No. Series";
+    begin
+        RequestNoSeries.InitRequestNoSeries();
+    end;
+
+    local procedure GetNoSeriesCode(): Code[20]
+    var
+        RequestNoSeries: Codeunit "Request No. Series";
+    begin
+        exit(RequestNoSeries.GetRequestNoSeriesCode());
+    end;
+
+    local procedure TestNoSeriesManual()
+    var
+        NoSeriesManagement: Codeunit NoSeriesManagement;
+    begin
+        case true of
+            "No." = '',
+            CurrFieldNo <> FieldNo("No."):
+                exit;
+        end;
+
+        NoSeriesManagement.TestManual(GetNoSeriesCode());
     end;
 }
