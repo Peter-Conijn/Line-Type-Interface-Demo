@@ -40,6 +40,7 @@ codeunit 50104 "Request Item Line Impl."
         RequestGenericLine: Codeunit "Request Generic Line";
     begin
         Rec.Description := GetDescription(Rec."No.");
+        RequestGenericLine.CopyHeaderData(Rec);
         RequestGenericLine.InitQuantity(Rec);
     end;
 

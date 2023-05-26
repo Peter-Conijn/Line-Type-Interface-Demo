@@ -5,10 +5,7 @@ codeunit 50107 "Request Generic Line"
         RequestHeader: Record "Request Header";
     begin
         RequestHeader.Get(RequestLine."Document No.");
-
-        RequestLine."Customer No." := RequestHeader."Customer No.";
-        RequestLine."Starting Date" := RequestHeader."Starting Date";
-        RequestLine."Duration (Days)" := RequestHeader."Duration (Days)";
+        UpdateLineFieldsFromHeader(RequestLine, RequestHeader);
     end;
 
     procedure InitQuantity(var RequestLine: Record "Request Line")
@@ -40,6 +37,17 @@ codeunit 50107 "Request Generic Line"
 
         if LineFinishingDate > HeaderFinishingDate then
             Error(DurationErr, LineFinishingDate - HeaderFinishingDate);
+    end;
+
+    local procedure UpdateLineFieldsFromHeader(var RequestLine: Record "Request Line"; RequestHeader: Record "Request Header")
+    begin
+        RequestLine."Customer No." := RequestHeader."Customer No.";
+
+        if RequestLine."Starting Date" = 0D then
+            RequestLine."Starting Date" := RequestHeader."Starting Date";
+
+        if RequestLine."Duration (Days)" = 0 then
+            RequestLine."Duration (Days)" := RequestHeader."Duration (Days)";
     end;
 
     var
