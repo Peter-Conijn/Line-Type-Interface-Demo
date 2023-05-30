@@ -15,9 +15,25 @@ codeunit 50108 "Request No. Series"
         exit('REQUESTS');
     end;
 
-    procedure GetRequestNoSeriesStart(): Code[20]
+    procedure InitPostedRequestNoSeries()
+    begin
+        InitNoSeries(GetPostedRequestNoSeriesCode());
+        InitNoSeriesLine(GetPostedRequestNoSeriesCode(), GetPostedRequestNoSeriesStart());
+    end;
+
+    procedure GetPostedRequestNoSeriesCode(): Code[20]
+    begin
+        exit('P-REQUESTS');
+    end;
+
+    local procedure GetRequestNoSeriesStart(): Code[20]
     begin
         exit('RQ-0001');
+    end;
+
+    local procedure GetPostedRequestNoSeriesStart(): Code[20]
+    begin
+        exit('PRQ-0001');
     end;
 
     local procedure InitNoSeries(RequestNoSeriesCode: Code[20])

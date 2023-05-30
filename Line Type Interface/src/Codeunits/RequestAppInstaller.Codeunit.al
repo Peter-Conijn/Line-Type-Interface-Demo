@@ -12,5 +12,6 @@ codeunit 50109 "Request App Installer"
         RequestNoSeries: Codeunit "Request No. Series";
     begin
         RequestNoSeries.InitRequestNoSeries();
+        RequestNoSeries.InitPostedRequestNoSeries();
     end;
 }

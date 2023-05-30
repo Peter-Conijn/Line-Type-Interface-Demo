@@ -10,7 +10,6 @@ table 50101 "Request Header"
         field(1; "No."; Code[20])
         {
             Caption = 'No.';
-            DataClassification = CustomerContent;
 
             trigger OnValidate()
             begin
@@ -20,7 +19,6 @@ table 50101 "Request Header"
         field(2; "Customer No."; Code[20])
         {
             Caption = 'Customer';
-            DataClassification = CustomerContent;
             TableRelation = Customer;
 
             trigger OnValidate()
@@ -38,13 +36,11 @@ table 50101 "Request Header"
         field(4; "Starting Date"; Date)
         {
             Caption = 'Starting Date';
-            DataClassification = CustomerContent;
             NotBlank = true;
         }
         field(5; "Duration (Days)"; Integer)
         {
             Caption = 'Duration (Days)';
-            DataClassification = CustomerContent;
             MinValue = 0;
             BlankZero = true;
         }
@@ -63,6 +59,11 @@ table 50101 "Request Header"
 
         "Starting Date" := WorkDate();
         "Duration (Days)" := 1;
+    end;
+
+    trigger OnDelete()
+    begin
+        DeleteRequestLines();
     end;
 
     procedure GetFinishingDate(): Date
@@ -114,5 +115,15 @@ table 50101 "Request Header"
         end;
 
         NoSeriesManagement.TestManual(GetNoSeriesCode());
+    end;
+
+    [InherentPermissions(PermissionObjectType::TableData, Database::"Request Line", 'd')]
+    local procedure DeleteRequestLines()
+    var
+        RequestLine: Record "Request Line";
+    begin
+        RequestLine.SetRange("Document No.", "No.");
+        if not RequestLine.IsEmpty() then
+            RequestLine.DeleteAll(true);
     end;
 }

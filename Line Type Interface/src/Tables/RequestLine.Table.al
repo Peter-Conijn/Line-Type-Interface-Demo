@@ -92,6 +92,10 @@ table 50102 "Request Line"
         {
             Clustered = true;
         }
+        key(Key2; Type)
+        {
+            IncludedFields = "No.";
+        }
     }
 
     trigger OnInsert()
