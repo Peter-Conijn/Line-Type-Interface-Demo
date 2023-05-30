@@ -5,6 +5,7 @@ codeunit 50109 "Request App Installer"
     trigger OnInstallAppPerCompany()
     begin
         InitNoSeries();
+        InitPostingMapping();
     end;
 
     local procedure InitNoSeries()
@@ -13,5 +14,12 @@ codeunit 50109 "Request App Installer"
     begin
         RequestNoSeries.InitRequestNoSeries();
         RequestNoSeries.InitPostedRequestNoSeries();
+    end;
+
+    local procedure InitPostingMapping()
+    var
+        PostingMapping: Codeunit "Posting Mapping";
+    begin
+        PostingMapping.InitPostingMapping();
     end;
 }

@@ -1,6 +1,7 @@
 codeunit 50108 "Request No. Series"
 {
     Access = Internal;
+    InherentPermissions = X;
     Permissions = tabledata "No. Series" = rim,
                   tabledata "No. Series Line" = rim;
 
