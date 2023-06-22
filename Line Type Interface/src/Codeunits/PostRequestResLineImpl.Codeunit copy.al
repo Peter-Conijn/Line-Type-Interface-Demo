@@ -41,6 +41,7 @@ codeunit 50117 "Post Request Res. Line Impl." implements "Post Request Line"
         ResourcePlanningLine."No." := RequestLine."No.";
         ResourcePlanningLine.Quantity := RequestLine.Quantity;
         ResourcePlanningLine."Starting Date" := RequestLine."Starting Date";
+        ResourcePlanningLine."Duration (Days)" := RequestLine."Duration (Days)";
 
         ResourcePlanningLine.Insert(true);
     end;
