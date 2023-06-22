@@ -3,46 +3,32 @@ codeunit 50113 "Post Request Text Line Impl." implements "Post Request Line"
     Access = Internal;
 
     procedure PostRequestLine(var RequestLine: Record "Request Line"; PostedRequestNo: Code[20])
+    begin
+        AddTextLineToEntityText(RequestLine.Description, PostedRequestNo);
+    end;
+
+    local procedure AddTextLineToEntityText(Description: Text[100]; PostedRequestNo: Code[20])
     var
-        RequestHasItemLines: Boolean;
-        RequestHasResourceLines: Boolean;
+        EntityText: Record "Entity Text";
     begin
-        RequestHasItemLines := HasItemLines(RequestLine."Document No.");
-        RequestHasResourceLines := HasResourceLines(RequestLine."Document No.");
-
-        if RequestHasItemLines then
-            AddLineToPartsPlanning(RequestLine);
-        if RequestHasResourceLines then
-            AddLineToResourcePlanning(RequestLine);
+        InitEntityTextord(EntityText, PostedRequestNo);
     end;
 
-    local procedure HasItemLines(DocumentNo: Code[20]): Boolean
-    begin
-        exit(HasLinesOfType(DocumentNo, Enum::"Request Line Type"::Item));
-    end;
-
-    local procedure HasResourceLines(DocumentNo: Code[20]): Boolean
-    begin
-        exit(HasLinesOfType(DocumentNo, Enum::"Request Line Type"::Resource));
-    end;
-
-    [InherentPermissions(PermissionObjectType::TableData, Database::"Request Line", 'R')]
-    local procedure HasLinesOfType(DocumentNo: Code[20]; RequestLineType: Enum "Request Line Type"): Boolean
+    local procedure InitEntityTextord(var EntityText: Record "Entity Text"; PostedRequestNo: Code[20])
     var
-        RequestLine: Record "Request Line";
+        PostedRequestHeader: Record "Posted Request Header";
     begin
-        RequestLine.SetCurrentKey(Type);
-        RequestLine.SetRange(Type);
-        exit(not RequestLine.IsEmpty());
-    end;
+        PostedRequestHeader.SetLoadFields(SystemId);
+        PostedRequestHeader.Get(PostedRequestNo);
 
-    local procedure AddLineToPartsPlanning(var RequestLine: Record "Request Line")
-    begin
-        Error('Procedure AddLineToPartsPlanning not implemented.');
-    end;
+        if EntityText.Get(CompanyName(), Database::"Posted Request Header", PostedRequestHeader.SystemId, Enum::"Entity Text Scenario"::"Request Information") then
+            exit;
 
-    local procedure AddLineToResourcePlanning(var RequestLine: Record "Request Line")
-    begin
-        Error('Procedure AddLineToResourcePlanning not implemented.');
+        EntityText.Init();
+        EntityText.Company := CopyStr(CompanyName(), 1, MaxStrLen(EntityText.Company));
+        EntityText."Source Table Id" := Database::"Posted Request Header";
+        EntityText."Source System Id" := PostedRequestHeader.SystemId;
+        EntityText.Scenario := Enum::"Entity Text Scenario"::"Request Information";
+        EntityText.Insert();
     end;
 }
