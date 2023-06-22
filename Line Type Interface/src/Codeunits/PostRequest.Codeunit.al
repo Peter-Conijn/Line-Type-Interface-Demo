@@ -34,6 +34,8 @@ codeunit 50110 "Post Request"
         PostedRequestNo := CreatePostedRequest(RequestHeader);
         CreatePostedDocuments(RequestHeader, PostedRequestNo);
         DeleteRequest(RequestHeader);
+
+        Commit();
     end;
 
     local procedure CreatePostedRequest(var RequestHeader: Record "Request Header"): Code[20]
@@ -77,7 +79,7 @@ codeunit 50110 "Post Request"
         PostedRequestHeader."No." := GetNextPostedRequestNo();
         PostedRequestHeader.Insert(true);
 
-        PostedRequestHeader.TransferFields(RequestHeader);
+        PostedRequestHeader.TransferFields(RequestHeader, false);
         PostedRequestHeader.Modify(true);
 
         exit(PostedRequestHeader."No.")
@@ -128,7 +130,7 @@ codeunit 50110 "Post Request"
         PostedRequestLine."Line No." := RequestLine."Line No.";
         PostedRequestLine.Insert(true);
 
-        PostedRequestLine.TransferFields(RequestLine);
+        PostedRequestLine.TransferFields(RequestLine, false);
         PostedRequestLine.Modify(true);
     end;
 }

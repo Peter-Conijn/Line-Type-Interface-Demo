@@ -10,8 +10,14 @@ codeunit 50113 "Post Request Text Line Impl." implements "Post Request Line"
     local procedure AddTextLineToEntityText(Description: Text[100]; PostedRequestNo: Code[20])
     var
         EntityText: Record "Entity Text";
+        TypeHelper: Codeunit "Type Helper";
+        OutStr: OutStream;
     begin
         InitEntityTextord(EntityText, PostedRequestNo);
+
+        EntityText.Text.CreateOutStream(OutStr, TextEncoding::UTF8);
+        OutStr.WriteText(Description);
+        EntityText.Modify();
     end;
 
     local procedure InitEntityTextord(var EntityText: Record "Entity Text"; PostedRequestNo: Code[20])

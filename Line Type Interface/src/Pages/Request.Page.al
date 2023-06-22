@@ -42,4 +42,33 @@ page 50102 Request
             }
         }
     }
+
+    actions
+    {
+        area(Promoted)
+        {
+            actionref(Post_Promoted; "&Post") { }
+        }
+        area(Processing)
+        {
+            action("&Post")
+            {
+                Caption = '&Post';
+                Tooltip = 'Posts the lines to the various planning departments and closes the request.';
+                Image = Post;
+
+                trigger OnAction()
+                begin
+                    PostRequest();
+                end;
+            }
+        }
+    }
+
+    local procedure PostRequest()
+    var
+        PostRequest: Codeunit "Post Request";
+    begin
+        PostRequest.PostRequestWithUI(Rec);
+    end;
 }

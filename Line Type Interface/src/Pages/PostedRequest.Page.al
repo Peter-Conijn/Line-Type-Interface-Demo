@@ -44,8 +44,15 @@ page 50105 "Posted Request"
         {
             part(EntityText; "Entity Text Factbox Part")
             {
-                SubPageLink = "Source Table Id" = const(Database::"Posted Request Header"), "Source System Id" = field(SystemId);
+                SubPageLink = "Source Table Id" = const(Database::"Posted Request Header"), "Source System Id" = field(SystemId), Scenario = const("Request Information");
             }
         }
     }
+
+    trigger OnAfterGetRecord()
+    var
+        PlaceholderTxt: Label 'Request Details';
+    begin
+        CurrPage.EntityText.Page.SetContext(Database::"Posted Request Header", Rec.SystemId, Enum::"Entity Text Scenario"::"Request Information", PlaceholderTxt);
+    end;
 }
