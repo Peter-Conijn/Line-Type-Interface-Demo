@@ -4,37 +4,23 @@ codeunit 50113 "Post Request Text Line Impl." implements "Post Request Line"
 
     procedure PostRequestLine(var RequestLine: Record "Request Line"; PostedRequestNo: Code[20])
     begin
-        AddTextLineToEntityText(RequestLine.Description, PostedRequestNo);
+        AddTextLineToInstructions(RequestLine.Description, PostedRequestNo);
     end;
 
-    local procedure AddTextLineToEntityText(Description: Text[100]; PostedRequestNo: Code[20])
+    local procedure AddTextLineToInstructions(Description: Text[100]; PostedRequestNo: Code[20])
     var
-        EntityText: Record "Entity Text";
-        TypeHelper: Codeunit "Type Helper";
-        OutStr: OutStream;
+        RequestInstructions: Codeunit "Request Instructions";
     begin
-        InitEntityTextord(EntityText, PostedRequestNo);
-
-        EntityText.Text.CreateOutStream(OutStr, TextEncoding::UTF8);
-        OutStr.WriteText(Description);
-        EntityText.Modify();
+        RequestInstructions.SetInstructions(PostedRequestNo, Description);
     end;
 
-    local procedure InitEntityTextord(var EntityText: Record "Entity Text"; PostedRequestNo: Code[20])
-    var
-        PostedRequestHeader: Record "Posted Request Header";
+    local procedure InitInstructionsRecord(var PostedRequestInstructions: Record "Posted Request Instructions"; PostedRequestNo: Code[20])
     begin
-        PostedRequestHeader.SetLoadFields(SystemId);
-        PostedRequestHeader.Get(PostedRequestNo);
-
-        if EntityText.Get(CompanyName(), Database::"Posted Request Header", PostedRequestHeader.SystemId, Enum::"Entity Text Scenario"::"Request Information") then
+        if PostedRequestInstructions.Get(PostedRequestNo) then
             exit;
 
-        EntityText.Init();
-        EntityText.Company := CopyStr(CompanyName(), 1, MaxStrLen(EntityText.Company));
-        EntityText."Source Table Id" := Database::"Posted Request Header";
-        EntityText."Source System Id" := PostedRequestHeader.SystemId;
-        EntityText.Scenario := Enum::"Entity Text Scenario"::"Request Information";
-        EntityText.Insert();
+        PostedRequestInstructions.Init();
+        PostedRequestInstructions."Posted Request No." := PostedRequestNo;
+        PostedRequestInstructions.Insert(true);
     end;
 }
