@@ -5,7 +5,7 @@ table 50109 "Parts Planning Line"
 
     fields
     {
-        field(1; "Planning ID"; Code[20])
+        field(1; "Planning ID"; Guid)
         {
             Caption = 'Document No.';
         }

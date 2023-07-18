@@ -18,7 +18,7 @@ page 50107 "Instructions Factbox"
                     Caption = 'Instructions';
                     MultiLine = true;
                     Editable = false;
-                    ExtendedDatatype = RichContent; // Should be valid soon
+                    ExtendedDatatype = RichContent;
                 }
             }
         }
